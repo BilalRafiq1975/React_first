@@ -1,29 +1,29 @@
 import { useState } from 'react';
 import { Menu } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import toast from 'react-hot-toast';
 
 const Header = ({ email }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [confirmLogout, setConfirmLogout] = useState(false); // State for logout confirmation
+  const [confirmLogout, setConfirmLogout] = useState(false);
   const navigate = useNavigate();
 
   const toggleSidebar = () => setIsOpen(!isOpen);
 
   const handleLogout = () => {
-    setConfirmLogout(true); // Show logout confirmation dialog
+    setConfirmLogout(true);
   };
 
   const handleConfirmLogout = () => {
     toast.success("Logging out...");
     setTimeout(() => {
-      localStorage.removeItem('token'); // Optional: Clear token on logout
-      navigate('/'); // Redirect to login page
+      localStorage.removeItem('token');
+      navigate('/');
     }, 1500);
   };
 
   const handleCancelLogout = () => {
-    setConfirmLogout(false); // Close the logout confirmation dialog
+    setConfirmLogout(false);
   };
 
   return (
@@ -45,10 +45,18 @@ const Header = ({ email }) => {
         <div className="p-6">
           <h2 className="text-lg font-bold text-cyan-600 mb-4">Navigation</h2>
           <ul className="space-y-3 text-gray-800">
-            <li><a href="/dashboard" className="hover:text-cyan-500">Dashboard</a></li>
-            <li><a href="/settings" className="hover:text-cyan-500">Settings</a></li>
-            <li><a href="/profile" className="hover:text-cyan-500">Profile</a></li>
-            <li><button onClick={handleLogout} className="hover:text-cyan-500">Logout</button></li>
+            <li>
+              <Link to="/dashboard" className="hover:text-cyan-500">Dashboard</Link>
+            </li>
+            <li>
+              <Link to="/settings" className="hover:text-cyan-500">Settings</Link>
+            </li>
+            <li>
+              <Link to="/profile" className="hover:text-cyan-500">Profile</Link>
+            </li>
+            <li>
+              <button onClick={handleLogout} className="hover:text-cyan-500">Logout</button>
+            </li>
           </ul>
         </div>
       </div>
@@ -60,7 +68,6 @@ const Header = ({ email }) => {
         />
       )}
 
-      {/* Logout confirmation modal */}
       {confirmLogout && (
         <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
           <div className="bg-white p-6 rounded shadow-lg max-w-sm w-full">
